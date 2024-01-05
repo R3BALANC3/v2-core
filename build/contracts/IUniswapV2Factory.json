@@ -187,7 +187,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity >=0.5.0;\r\n\r\ninterface IUniswapV2Factory {\r\n    event PairCreated(address indexed token0, address indexed token1, address pair, uint);\r\n\r\n    function feeTo() external view returns (address);\r\n    function feeToSetter() external view returns (address);\r\n\r\n    function getPair(address tokenA, address tokenB) external view returns (address pair);\r\n    function allPairs(uint) external view returns (address pair);\r\n    function allPairsLength() external view returns (uint);\r\n\r\n    function createPair(address tokenA, address tokenB) external returns (address pair);\r\n\r\n    function setFeeTo(address) external;\r\n    function setFeeToSetter(address) external;\r\n}\r\n",
-  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Documents\\cardio\\v2-core\\contracts\\interfaces\\IUniswapV2Factory.sol",
+  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Desktop\\R33\\v2-core\\contracts\\interfaces\\IUniswapV2Factory.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IUniswapV2Factory.sol",
     "exportedSymbols": {
@@ -1775,7 +1775,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-17T12:05:56.863Z",
+  "updatedAt": "2024-01-05T03:40:18.785Z",
   "devdoc": {
     "methods": {}
   },

@@ -7,7 +7,7 @@
   "sourceMap": "136:442:9:-;;132:2:-1;166:7;155:9;146:7;137:37;255:7;249:14;246:1;241:23;235:4;232:33;222:2;;269:9;222:2;293:9;290:1;283:20;323:4;314:7;306:22;347:7;338;331:24",
   "deployedSourceMap": "136:442:9:-;;;;;;;;",
   "source": "pragma solidity =0.5.16;\r\n\r\n// a library for performing overflow-safe math, courtesy of DappHub (https://github.com/dapphub/ds-math)\r\n\r\nlibrary SafeMath {\r\n    function add(uint x, uint y) internal pure returns (uint z) {\r\n        require((z = x + y) >= x, 'ds-math-add-overflow');\r\n    }\r\n\r\n    function sub(uint x, uint y) internal pure returns (uint z) {\r\n        require((z = x - y) <= x, 'ds-math-sub-underflow');\r\n    }\r\n\r\n    function mul(uint x, uint y) internal pure returns (uint z) {\r\n        require(y == 0 || (z = x * y) / y == x, 'ds-math-mul-overflow');\r\n    }\r\n}\r\n",
-  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Documents\\cardio\\v2-core\\contracts\\libraries\\SafeMath.sol",
+  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Desktop\\R33\\v2-core\\contracts\\libraries\\SafeMath.sol",
   "ast": {
     "absolutePath": "project:/contracts/libraries/SafeMath.sol",
     "exportedSymbols": {
@@ -2163,7 +2163,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-17T12:05:56.884Z",
+  "updatedAt": "2024-01-05T03:40:18.804Z",
   "devdoc": {
     "methods": {}
   },

@@ -214,7 +214,7 @@
   "sourceMap": "107:1923:1:-;;;536:86;8:9:-1;5:2;;;30:1;27;20:12;5:2;536:86:1;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;536:86:1;588:11;:26;;-1:-1:-1;;;;;;588:26:1;-1:-1:-1;;;;;588:26:1;;;;;;;;;107:1923;;;-1:-1:-1;107:1923:1;;",
   "deployedSourceMap": "107:1923:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;107:1923:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;277:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;304:26;;;:::i;408:25::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;408:25:1;;:::i;630:96::-;;;:::i;:::-;;;;;;;;;;;;;;;;161:107;;;:::i;1858:169::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1858:169:1;;;;:::i;:::-;;734:963;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;734:963:1;;;;;;;;;;;:::i;339:62::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;339:62:1;;;;;;;;;;;:::i;1705:145::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1705:145:1;;;;:::i;277:20::-;;;;;;:::o;304:26::-;;;;;;:::o;408:25::-;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;408:25:1;:::o;630:96::-;703:8;:15;630:96;:::o;161:107::-;234:32;;;;;;;:::i;:::-;41:4:-1;34:5;30:16;25:3;21:26;14:5;7:41;87:2;83:7;78:2;73:3;69:12;65:26;61:2;54:38;234:32:1;217:50;;;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:11;36:153;;176:10;;164:23;;139:12;;;;;98:2;89:12;;;;114;36:153;;;274:1;267:3;263:2;259:12;254:3;250:22;246:30;315:4;311:9;305:3;299:10;295:26;356:4;350:3;344:10;340:21;389:7;380;377:20;372:3;365:33;3:399;;;217:50:1;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;217:50:1;;;207:61;;;;;;161:107;:::o;1858:169::-;1946:11;;;;1932:10;:25;1924:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1993:11;:26;;;;;;;;;;;;;;;1858:169::o;734:963::-;804:12;847:6;837:16;;:6;:16;;;;829:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;900:14;916;943:6;934:15;;:6;:15;;;:53;;972:6;980;934:53;;;953:6;961;934:53;899:88;;-1:-1:-1;899:88:1;-1:-1:-1;1006:20:1;;;998:56;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1073:37;:15;;;1108:1;1073:15;;;:7;:15;;;;;;;;:23;;;;;;;;;;;;:37;1065:72;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1178:21;1202:32;;;;;;;;:::i;:::-;41:4:-1;34:5;30:16;25:3;21:26;14:5;7:41;87:2;83:7;78:2;73:3;69:12;65:26;61:2;54:38;1202:32:1;1178:56;;1245:12;1287:6;1295;1270:32;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;1270:32:1;;;1260:43;;;;;;1245:58;;1393:4;1382:8;1376:15;1371:2;1361:8;1357:17;1354:1;1346:52;1419:47;;;;;;:31;:47;;;;;;;;;;;;;;;;1338:60;;-1:-1:-1;1419:31:1;;;;;;:47;;;;;-1:-1:-1;;1419:47:1;;;;;;;;-1:-1:-1;1419:31:1;:47;;;5:2:-1;;;;30:1;27;20:12;5:2;1419:47:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;;;1477:15:1;;;;;;;;:7;:15;;;;;;;;:23;;;;;;;;;;;;:30;;;;;;;;;;;;;;1518:15;;;;;;:23;;;;;;;;:30;;;;;;;;1604:8;27:10:-1;;-1:-1;23:18;;45:23;;1604:19:1;;;;;;;;;;;;;;;;;;1673:15;;1639:50;;;;;;;;;;;;;;;;;;;;;;734:963;;;;;;;;:::o;339:62::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;1705:145::-;1781:11;;;;1767:10;:25;1759:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1828:5;:14;;;;;;;;;;;;;;;1705:145::o;107:1923::-;;;;;;;;:::o",
   "source": "pragma solidity =0.5.16;\r\n\r\nimport './interfaces/IUniswapV2Factory.sol';\r\nimport './UniswapV2Pair.sol';\r\n\r\ncontract UniswapV2Factory is IUniswapV2Factory {\r\n    bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(abi.encodePacked(type(UniswapV2Pair).creationCode));\r\n\r\n    address public feeTo;\r\n    address public feeToSetter;\r\n\r\n    mapping(address => mapping(address => address)) public getPair;\r\n    address[] public allPairs;\r\n\r\n    event PairCreated(address indexed token0, address indexed token1, address pair, uint);\r\n\r\n    constructor(address _feeToSetter) public {\r\n        feeToSetter = _feeToSetter;\r\n    }\r\n\r\n    function allPairsLength() external view returns (uint) {\r\n        return allPairs.length;\r\n    }\r\n\r\n    function createPair(address tokenA, address tokenB) external returns (address pair) {\r\n        require(tokenA != tokenB, 'UniswapV2: IDENTICAL_ADDRESSES');\r\n        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);\r\n        require(token0 != address(0), 'UniswapV2: ZERO_ADDRESS');\r\n        require(getPair[token0][token1] == address(0), 'UniswapV2: PAIR_EXISTS'); // single check is sufficient\r\n        bytes memory bytecode = type(UniswapV2Pair).creationCode;\r\n        bytes32 salt = keccak256(abi.encodePacked(token0, token1));\r\n        assembly {\r\n            pair := create2(0, add(bytecode, 32), mload(bytecode), salt)\r\n        }\r\n        IUniswapV2Pair(pair).initialize(token0, token1);\r\n        getPair[token0][token1] = pair;\r\n        getPair[token1][token0] = pair; // populate mapping in the reverse direction\r\n        allPairs.push(pair);\r\n        emit PairCreated(token0, token1, pair, allPairs.length);\r\n    }\r\n\r\n    function setFeeTo(address _feeTo) external {\r\n        require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');\r\n        feeTo = _feeTo;\r\n    }\r\n\r\n    function setFeeToSetter(address _feeToSetter) external {\r\n        require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');\r\n        feeToSetter = _feeToSetter;\r\n    }\r\n}\r\n",
-  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Documents\\cardio\\v2-core\\contracts\\UniswapV2Factory.sol",
+  "sourcePath": "C:\\Users\\ñdkvubefklbjvr\\Desktop\\R33\\v2-core\\contracts\\UniswapV2Factory.sol",
   "ast": {
     "absolutePath": "project:/contracts/UniswapV2Factory.sol",
     "exportedSymbols": {
@@ -6090,6 +6090,12 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x7e165A16Cb7c8B0C627c5E696c8C25Ae6b0A47D4",
+      "transactionHash": "0x1a9ba5a8f9efa3a144c08c9437fb1f9fb7b2072f5bd802f802a1eb4932d263c4"
+    },
     "369": {
       "events": {},
       "links": {},
@@ -6098,7 +6104,7 @@
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-17T12:06:56.767Z",
+  "updatedAt": "2024-01-05T03:41:25.422Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
